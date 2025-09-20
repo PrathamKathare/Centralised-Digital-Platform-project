@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Student Portal</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <section class="profile-card">
+    <button class="edit-btn" id="editProfileBtn">Edit Profile</button>
+    <img src="https://via.placeholder.com/120/007bff/fff?text=JD" alt="Profile Picture" class="profile-pfp">
+    <div class="profile-details">
+      <div><label>Name:</label> <span id="profileName">John Doe</span></div>
+      <div><label>Year:</label> <span id="profileYear">3rd Year</span></div>
+      <div><label>College:</label> <span id="profileCollege">XYZ University</span></div>
+      <div><label>Department:</label> <span id="profileDept">Computer Science</span></div>
+      <div><label>Domain:</label> <span id="profileDomain">Web Development</span></div>
+      <div><label>Email:</label> <a href="mailto:john.doe@example.com" id="profileEmail">john.doe@example.com</a></div>
+      <div class="social-icons">
+        <a href="https://linkedin.com/in/johndoe" target="_blank"><img src="https://img.icons8.com/color/48/000000/linkedin.png" alt="LinkedIn"></a>
+        <a href="https://github.com/johndoe" target="_blank"><img src="https://img.icons8.com/fluent/48/000000/github.png" alt="GitHub"></a>
+        <a href="https://leetcode.com/johndoe" target="_blank"><img src="https://img.icons8.com/external-tal-revivo-shadow-tal-revivo/48/000000/external-leetcode-a-popular-online-judge-for-preparing-technical-interviews-logo-shadow-tal-revivo.png" alt="LeetCode"></a>
+      </div>
+    </div>
+    <div class="profile-ids">
+      <span class="id-badge" id="profileUSN">USN12345678</span>
+      <span class="id-badge" onclick="copyToClipboard('PaserID-00123')" title="Click to copy">
+        PaserID-00123 <img src="https://img.icons8.com/material-outlined/24/000000/copy.png" class="copy-icon" alt="Copy">
+      </span>
+      <button class="delete-account-btn" onclick="deleteAccountConfirmation()">Delete Account</button>
+    </div>
+  </section>
+
+  <div class="info-sections">
+    <section class="section-card">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3>Certificates</h3>
+        <button class="add-item-btn" id="addCertBtn">Add New Certificate</button>
+      </div>
+      <div class="carousel-wrapper">
+        <div class="carousel-container" id="certContainer"></div>
+        <button class="carousel-btn left" id="certPrevBtn" onclick="navigate('certContainer', -1)">&#8592;</button>
+        <button class="carousel-btn right" id="certNextBtn" onclick="navigate('certContainer', 1)">&#8594;</button>
+      </div>
+    </section>
+
+    <section class="section-card">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3>Grades (SGPA & Subjects)</h3>
+        <button class="add-item-btn" id="addGradeBtn">Add New Grade</button>
+      </div>
+      <div class="carousel-wrapper">
+        <div class="carousel-container" id="gradeContainer"></div>
+        <button class="carousel-btn left" id="gradePrevBtn" onclick="navigate('gradeContainer', -1)">&#8592;</button>
+        <button class="carousel-btn right" id="gradeNextBtn" onclick="navigate('gradeContainer', 1)">&#8594;</button>
+      </div>
+    </section>
+  </div>
+
+  <section class="projects-section">
+    <h3>Projects</h3>
+    <button class="add-project-btn" id="addProjectBtn">Add New Project</button>
+    <div class="project-cards-container" id="projectCardsContainer"></div>
+  </section>
+</div>
+
+<div class="modal-overlay" id="editProfileModal">
+  <div class="modal">
+    <h3>Edit Profile</h3>
+    <form id="editProfileForm">
+      <label for="editName">Name</label>
+      <input type="text" id="editName" required>
+      <label for="editYear">Year</label>
+      <input type="text" id="editYear" required>
+      <label for="editCollege">College</label>
+      <input type="text" id="editCollege" required>
+      <label for="editDept">Department</label>
+      <input type="text" id="editDept" required>
+      <label for="editDomain">Domain</label>
+      <input type="text" id="editDomain" required>
+      <label for="editEmail">Email</label>
+      <input type="email" id="editEmail" required>
+      
+      <div class="modal-buttons">
+        <button type="button" onclick="toggleModal('editProfileModal', false)">Cancel</button>
+        <button type="submit">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="addCertModal">
+  <div class="modal">
+    <h3>Add New Certificate</h3>
+    <form id="addCertForm">
+      <label for="certUrl">Certificate Image URL</label>
+      <input type="url" id="certUrl" required>
+      <label for="certDetails">Details</label>
+      <textarea id="certDetails" required></textarea>
+      <div class="modal-buttons">
+        <button type="button" onclick="toggleModal('addCertModal', false)">Cancel</button>
+        <button type="submit">Add Certificate</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="addGradeModal">
+  <div class="modal">
+    <h3>Add New Grade</h3>
+    <form id="addGradeForm">
+      <label for="gradeSem">Semester</label>
+      <input type="text" id="gradeSem" placeholder="e.g., Semester 4" required>
+      <label for="gradeSGPA">SGPA</label>
+      <input type="number" step="0.1" id="gradeSGPA" placeholder="e.g., 9.5" required>
+      <label for="gradeSubjects">Subjects (JSON or "sub1:grade1,sub2:grade2")</label>
+      <textarea id="gradeSubjects" placeholder='[{"name": "Subject 1", "grade": "A"}]' required></textarea>
+      <div class="modal-buttons">
+        <button type="button" onclick="toggleModal('addGradeModal', false)">Cancel</button>
+        <button type="submit">Add Grade</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="addProjectModal">
+  <div class="modal">
+    <h3>Add New Project</h3>
+    <form id="addProjectForm">
+      <label for="projectTitle">Project Title</label>
+      <input type="text" id="projectTitle" required>
+      <label for="projectDesc">Description</label>
+      <textarea id="projectDesc" required></textarea>
+      <label for="projectSkills">Skills Used (comma separated)</label>
+      <input type="text" id="projectSkills" placeholder="JavaScript, React, CSS" required>
+      <label for="projectGitHub">GitHub Link</label>
+      <input type="url" id="projectGitHub" placeholder="https://github.com/username/repo" required>
+      <div class="modal-buttons">
+        <button type="button" onclick="toggleModal('addProjectModal', false)">Cancel</button>
+        <button type="submit">Add Project</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

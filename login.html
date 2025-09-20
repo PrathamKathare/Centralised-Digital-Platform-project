@@ -22,80 +22,68 @@
         <p class="subtitle">Log in to your P.A.S.E.R. account.</p>
 
         <form class="login-form">
-            <label for="username" class="label">Username</label>
-            <input
-                type="text"
-                id="username"
-                name="username"
-                class="input-field"
-                placeholder="Enter your username"
-                required
-            />
+    <label for="userType" class="label">Login As</label>
+    <select id="userType" name="userType" class="input-field" required>
+        <option value="studentAuth">Student</option>
+        <option value="professorAuth">Professor</option>
+        <option value="adminAuth">Admin</option>
+    </select>
 
-            <label for="password" class="label">Password</label>
-            <div class="password-input-wrapper">
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    class="input-field"
-                    placeholder="Enter your password"
-                    required
-                />
-                <span class="toggle-password" onclick="togglePasswordVisibility('password')">
-                    <i class="fas fa-eye"></i>
-                </span>
-            </div>
+    <label for="username" class="label">Username</label>
+    <input
+        type="text"
+        id="username"
+        name="username"
+        class="input-field"
+        placeholder="Enter your username"
+        required
+    />
 
-            <button type="submit" class="login-button">Log in</button>
-        </form>
-        <pre id="result" style="white-space: pre-wrap; margin-top: 1rem;"></pre>
+    <label for="password" class="label">Password</label>
+    <div class="password-input-wrapper">
+        <input
+            type="password"
+            id="password"
+            name="password"
+            class="input-field"
+            placeholder="Enter your password"
+            required
+        />
+        <span class="toggle-password" onclick="togglePasswordVisibility('password')">
+            <i class="fas fa-eye"></i>
+        </span>
     </div>
 
-    <script>
-        // JavaScript for the password visibility toggle
-        function togglePasswordVisibility(fieldId) {
-            const passwordInput = document.getElementById(fieldId);
-            const toggleIcon = passwordInput.parentElement.querySelector('.toggle-password i');
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                toggleIcon.classList.remove('fa-eye');
-                toggleIcon.classList.add('fa-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                toggleIcon.classList.remove('fa-eye-slash');
-                toggleIcon.classList.add('fa-eye');
-            }
-        }
+    <button type="submit" class="login-button">Log in</button>
+</form>
+<pre id="result" style="white-space: pre-wrap; margin-top: 1rem;"></pre>
 
-        // JavaScript to handle form submit and fetch call
-        document.querySelector('.login-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
+<script>
+    document.querySelector('.login-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const resultEl = document.getElementById('result');
+    resultEl.textContent = 'Preparing request...';
 
-            const resultEl = document.getElementById('result');
-            resultEl.textContent = 'Preparing request...';
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const userType = document.getElementById('userType').value;
 
-            const fd = new FormData();
-            fd.append('username', document.getElementById('username').value);
-            fd.append('password', document.getElementById('password').value);
+    // ADD THIS LINE HERE:
+    const loginUrl = 'http://127.0.0.1:8080/${userType}/login';
 
-            try {
-                resultEl.textContent = 'Sending login request...';
-
-                const resp = await fetch('http://localhost:8080/studentAuth/login', {
-                    method: 'POST',
-                    body: fd,
-                    // Content-Type is set automatically for FormData
-                });
-
-                const text = await resp.text();
-
-                resultEl.textContent = `Status: ${resp.status} ${resp.statusText}\n\nResponse body:\n${text}`;
-            } catch (err) {
-                resultEl.textContent = 'Request failed:\n' + (err.stack || err);
-            }
+    try {
+        const resp = await fetch(loginUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
         });
-    </script>
+        const text = await resp.text();
+        resultEl.textContent = `Status: ${resp.status} ${resp.statusText}\n\nResponse body:\n${text}`;
+    } catch (err) {
+        resultEl.textContent = 'Request failed:\n' + (err.stack || err);
+    }
+   });
+</script>
     <script src="./script.js"></script>
 </body>
 </html>

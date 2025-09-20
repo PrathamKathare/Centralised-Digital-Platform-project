@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P.A.S.E.R. - Student Login</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./script.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="login-page-body">
+    
+    <div class="background"></div>
+    <div class="login-container">
+        <h1 class="title">Join as a Student</h1>
+        <p class="subtitle">Enter your details to get started.</p>
+        <form class="login-form">
+            <label for="full-name" class="label">Full Name (as per University records)</label>
+            <input type="text" id="full-name" class="input-field" placeholder="John Doe" required>
+
+            <label for="uni-name" class="label">University Name</label>
+            <select id="uni-name" class="input-field" required>
+                <option value="" disabled selected>Select your University</option>
+                <option value="university-a">University A</option>
+                <option value="university-b">University B</option>
+                <option value="university-c">University C</option>
+            </select>
+            
+            <label for="usn" class="label">USN (University Seat Number)</label>
+            <input type="text" id="usn" class="input-field" placeholder="e.g., 1AB23CS001" required>
+
+            <label for="email" class="label">College Email ID</label>
+            <input type="email" id="email" class="input-field" placeholder="john.doe@university.edu" required>
+
+            <label for="dob" class="label">Date of Birth</label>
+            <input type="date" id="dob" class="input-field" required>
+
+            <label for="password" class="label">Create Password</label>
+            <div class="password-input-wrapper">
+                <input type="password" id="password" class="input-field" placeholder="Create new password" required>
+                <span class="toggle-password" onclick="togglePasswordVisibility('password')">
+                    <i class="fas fa-eye"></i>
+                </span>
+            </div>
+
+            <label for="confirm-password" class="label">Confirm Password</label>
+            <div class="password-input-wrapper">
+                <input type="password" id="confirm-password" class="input-field" placeholder="Confirm new password" required>
+                <span class="toggle-password" onclick="togglePasswordVisibility('confirm-password')">
+                    <i class="fas fa-eye"></i>
+                </span>
+            </div>
+            
+            <button type="submit" class="login-button">Sign Up</button>
+        </form>
+        <div class="create-account">
+            Already have an account? <a href="#" class="create-link">Log in.</a>
+        </div>
+    </div>
+</body>
+<script src="script.js"></script>
+</html>

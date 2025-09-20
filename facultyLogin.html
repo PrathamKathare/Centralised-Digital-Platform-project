@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P.A.S.E.R. - Faculty Login</title>
+    <script src="./script.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="login-page-body">
+    
+    <div class="background"></div>
+    <div class="login-container">
+        <h1 class="title">Join as a Faculty</h1>
+        <p class="subtitle">Enter your details to get started.</p>
+        <form class="login-form">
+            <label for="full-name" class="label">Full Name</label>
+            <input type="text" id="full-name" class="input-field" placeholder="Jane Doe" required>
+            
+            <label for="faculty-id" class="label">Faculty ID</label>
+            <input type="text" id="faculty-id" class="input-field" placeholder="e.g., F2345" required>
+            
+            <label for="department" class="label">Department</label>
+            <select id="department" class="input-field" required>
+                <option value="" disabled selected>Select your Department</option>
+                <option value="cs">Computer Science</option>
+                <option value="mech">Mechanical Engineering</option>
+                <option value="civil">Civil Engineering</option>
+            </select>
+
+            <label for="email" class="label">College Email ID</label>
+            <input type="email" id="email" class="input-field" placeholder="jane.doe@university.edu" required>
+
+            <label for="dob" class="label">Date of Birth</label>
+            <input type="date" id="dob" class="input-field" required>
+            
+            <button type="submit" class="login-button">Log in</button>
+        </form>
+        <div class="create-account">
+            Already have an account? <a href="#" class="create-link">Log in.</a>
+        </div>
+    </div>
+</body>
+<script src="script.js"></script>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Events - P.A.S.E.R.</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Base styles assuming navbar styles are handled in style.css */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #4a0e4e 25%, #0a0a0a 90%);
+      color: #e0dfff;
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main.events-container {
+      flex-grow: 1;
+      width: 95%;
+      max-width: 1100px;
+      margin: 2rem auto 3rem;
+      background: transparent;
+      border-radius: 20px;
+      padding: 2rem 2.5rem;
+      box-shadow: 0 0 70px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(74, 14, 78, 0.6);
+      user-select: none;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 2rem;
+      text-align: center;
+      text-shadow: 1.7px 1.7px 16px rgba(102, 0, 255, 0.75);
+      user-select: none;
+    }
+
+    .event-item {
+      background: linear-gradient(145deg, #4a0e4e, black);
+      border-radius: 18px;
+      padding: 1.5rem 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 6px 6px 13px #000000, -6px -6px 13px #4a0e4e;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .event-item:hover,
+    .event-item:focus {
+      transform: translateY(-7px);
+      box-shadow: 0 22px 36px rgba(0, 0, 0, 0.9), inset 0 0 20px #4a0e4e;
+      outline: none;
+    }
+
+    .event-title {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: #d1bfff;
+      margin-bottom: 0.5rem;
+      user-select: text;
+    }
+
+    .event-date {
+      font-size: 1rem;
+      font-style: italic;
+      color: #d9c6ffcc;
+      margin-bottom: 1rem;
+      user-select: text;
+    }
+
+    .event-description {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #d9c6ffcc;
+      user-select: text;
+    }
+
+    @media (max-width: 600px) {
+      main.events-container {
+        padding: 1.5rem 1.5rem;
+      }
+
+      h1 {
+        font-size: 2.4rem;
+      }
+
+      .event-title {
+        font-size: 1.4rem;
+      }
+
+      .event-description {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar student-navbar" role="navigation" aria-label="Student main navigation">
+        <div class="brand" aria-label="P.A.S.E.R. Logo">P.A.S.E.R.</div>
+
+        <div class="menu-toggle" id="menu-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+        <ul id="nav-links">
+      <li><a href="./studentSubjectsPage.html">my subjects</a></li>
+      <li><a href="./studentLeaderboard.html">leaderboard</a></li>
+      <li><a href="./MyProjects.html">my projects &amp; certificates</a></li>
+      <li><a href="./Notices.html">notices</a></li>
+      <li><a href="./Blogs.html">blog</a></li>
+      <li><a href="./Calender.html">calendar</a></li>
+      <li><a href="./Events.html">events</a></li>
+            <li>
+  <a href="./profileViewPage.html" class="profile" aria-label="View John's profile">
+    <img src="./Assets/profile.jpg" alt="Profile" class="profile-pic" id="profile-pic" />
+    <span class="profile-name" id="profile-name">John</span>
+  </a>
+</li>
+    </ul>
+  </nav>
+ <main class="events-container" role="main" aria-label="Upcoming academic and campus events">
+  <h1>Upcoming Events</h1>
+   </main>
+
+ <script>
+// events.js
+
+// Function to fetch events from the backend and render them
+async function fetchAndRenderEvents() {
+    const eventsContainer = document.querySelector('.events-container');
+
+    try {
+        const response = await fetch('/api/events');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const events = await response.json();
+
+        // Clear existing content, keeping the heading
+        const heading = eventsContainer.querySelector('h1');
+        eventsContainer.innerHTML = '';
+        eventsContainer.appendChild(heading);
+
+        if (events.length === 0) {
+            eventsContainer.innerHTML += '<p class="no-events-message">No upcoming events at the moment.</p>';
+        } else {
+            events.forEach(event => {
+                const eventItem = document.createElement('article');
+                eventItem.className = 'event-item';
+                eventItem.tabIndex = 0;
+
+                const eventTitle = document.createElement('h2');
+                eventTitle.className = 'event-title';
+                eventTitle.textContent = event.title;
+
+                const eventDate = document.createElement('div');
+                eventDate.className = 'event-date';
+                eventDate.textContent = event.date;
+
+                const eventDescription = document.createElement('p'); 
+                eventDescription.className = 'event-description';
+                eventDescription.textContent = event.description;
+
+                eventItem.appendChild(eventTitle);
+                eventItem.appendChild(eventDate);
+                eventItem.appendChild(eventDescription);
+                eventsContainer.appendChild(eventItem);
+            });
+        }
+    } catch (error) {
+        console.error('Failed to fetch events:', error);
+        const heading = eventsContainer.querySelector('h1');
+        eventsContainer.innerHTML = '';
+        eventsContainer.appendChild(heading);
+        eventsContainer.innerHTML += '<p class="error-message">Failed to load events. Please try again later.</p>';
+    }
+}
+
+// Call the function when the page loads
+document.addEventListener('DOMContentLoaded', fetchAndRenderEvents);
+</script>
+<script src="./script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Leaderboard - P.A.S.E.R.</title>
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+    /* Reset */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #4a0e4e 25%, #0a0a0a 90%);
+      color: #e0dfff;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      display: flex;
+      flex-direction: column; 
+      min-height: 100vh;
+    }
+
+    /* Leaderboard container */
+    main.leaderboard-container {
+      width: 95%;
+      max-width: 1300px;
+      background: transparent;
+      border-radius: 20px;
+      box-shadow: 0 0 70px rgba(0, 0, 0, 0.85);
+      padding: 2rem 3rem 3rem;
+      margin: 1.5rem auto 3rem;
+      user-select: none;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+      overflow-x: auto;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 0.8rem;
+      letter-spacing: 0.12em;
+      text-shadow: 1.7px 1.7px 16px rgba(102, 0, 255, 0.75);
+      text-align: center;
+      user-select: none;
+    }
+
+    /* Controls */
+    .leaderboard-controls {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .leaderboard-controls label {
+      color: #ddd;
+      font-weight: 600;
+      font-size: 1rem;
+      align-self: center;
+      cursor: pointer;
+    }
+
+    .leaderboard-controls select,
+    .leaderboard-controls input[type="search"] {
+      padding: 0.4rem 0.7rem;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+      background-color: #380064;
+      color: #e2dfff;
+      box-shadow:
+        inset 0 0 5px #6000bb;
+      transition: background-color 0.35s ease;
+    }
+
+    .leaderboard-controls select:focus,
+    .leaderboard-controls input[type="search"]:focus {
+      outline: 2px solid #8e2de2;
+      outline-offset: 2px;
+      background-color: #4a0e4e;
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 14px;
+      color: #dcd6f7;
+      user-select: none;
+      min-width: 900px;
+    }
+
+    thead tr {
+      background: linear-gradient(90deg, #1f0547, #380053);
+      font-weight: 700;
+      font-size: 1.1rem;
+      border-radius: 15px;
+      color: #f4e8ff;
+    }
+
+    thead th {
+      padding: 16px 18px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-align: center;
+      user-select: none;
+      cursor: pointer;
+      position: relative;
+    }
+
+    thead th.asc::after,
+    thead th.desc::after {
+      content: "";
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      margin-top: -6px;
+      border: 6px solid transparent;
+    }
+
+    thead th.asc::after {
+      border-bottom-color: #8e2de2;
+    }
+
+    thead th.desc::after {
+      border-top-color: #8e2de2;
+    }
+
+    tbody tr {
+      background: linear-gradient(145deg, #12092a, #2b005e);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      cursor: pointer;
+      border-radius: 18px;
+      box-shadow:
+        6px 6px 15px #0a0a0a,
+        -6px -6px 15px #4a0e4e;
+    }
+
+    tbody tr:hover,
+    tbody tr:focus {
+      transform: translateY(-10px);
+      background: linear-gradient(145deg, #1b0e3b, #3a0075);
+      outline: none;
+      box-shadow:
+        0 22px 38px rgba(0, 0, 0, 0.9),
+        inset 0 0 20px #8e2de2;
+    }
+
+    tbody td {
+      padding: 14px 18px;
+      text-align: center;
+      font-size: 1rem;
+      vertical-align: middle;
+      position: relative;
+      font-weight: 600;
+      user-select: none;
+      color: #d9c6ffcc;
+      white-space: nowrap;
+    }
+
+    .student-name {
+      text-align: left;
+      padding-left: 1rem;
+      font-weight: 700;
+      color: #cba0ff;
+      white-space: normal;
+      max-width: 280px;
+    }
+
+    /* Rank, CGPA, Projects, Certificates */
+    .rank,
+    .cgpa,
+    .projects,
+    .certificates {
+      font-weight: 800;
+      color: #ecdbff;
+      letter-spacing: 0.02em;
+    }
+
+    /* Responsive */
+    @media (max-width: 850px) {
+      .leaderboard-controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.8rem;
+      }
+
+      thead th {
+        font-size: 0.95rem;
+      }
+
+      tbody td {
+        font-size: 0.9rem;
+        padding: 12px 8px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      table,
+      thead,
+      tbody,
+      th,
+      td,
+      tr {
+        display: block;
+      }
+
+      thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+      }
+
+      tbody tr {
+        border: 1px solid #4a0e4e;
+        margin-bottom: 1rem;
+        border-radius: 16px;
+        padding: 1rem;
+        background: linear-gradient(145deg, #1b0e3b, #3a0075);
+        box-shadow:
+          6px 6px 10px #0a0a0a;
+      }
+
+      tbody td {
+        border: none;
+        padding: 8px 0;
+        padding-left: 50%;
+        text-align: left;
+        position: relative;
+        font-size: 1rem;
+        white-space: normal;
+        max-width: none;
+      }
+
+      tbody td::before {
+        position: absolute;
+        top: 8px;
+        left: 12px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: 700;
+        color: #cba0ff;
+        content: attr(data-label);
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<nav class="navbar student-navbar" role="navigation" aria-label="Student main navigation">
+  <!-- Logo -->
+  <div class="brand" aria-label="P.A.S.E.R. Logo">P.A.S.E.R.</div>
+
+  <!-- Hamburger (mobile toggle) -->
+  <div class="menu-toggle" id="menu-toggle">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <!-- Nav + Profile together -->
+  <ul id="nav-links">
+    <li><a href="./studentSubjectsPage.html">my subjects</a></li>
+    <li><a href="./studentLeaderboard.html">leaderboard</a></li>
+    <li><a href="./MyProjects.html">my projects &amp; certificates</a></li>
+    <li><a href="./Notices.html">notices</a></li>
+      <li><a href="./Blogs.html">blog</a></li>
+    <li><a href="./Calender.html">calendar</a></li>
+    <li><a href="./Events.html">events</a></li>
+    <!-- Profile -->
+    <li>
+  <a href="./profileViewPage.html" class="profile" aria-label="View John's profile">
+    <img src="./Assets/profile.jpg" alt="Profile" class="profile-pic" id="profile-pic" />
+    <span class="profile-name" id="profile-name">John</span>
+  </a>
+</li>
+  </ul>
+</nav>
+<body>
+  <main class="leaderboard-container" aria-label="Student leaderboard">
+    <h1>Leaderboard</h1>
+
+    <div class="leaderboard-controls">
+      <label for="sort-select">Sort by:</label>
+      <select id="sort-select" aria-label="Sort leaderboard">
+        <option value="roll" selected>Roll Number</option>
+        <option value="name">Student Name</option>
+        <option value="cgpa">CGPA</option>
+        <option value="projects">Projects Earned</option>
+        <option value="certificates">Certificates Earned</option>
+      </select>
+
+      <label for="search-input">Search by Name:</label>
+      <input type="search" id="search-input" aria-label="Search student by name" placeholder="Enter name..." />
+    </div>
+
+    <table role="table" aria-describedby="leaderboardDesc" tabindex="0" id="leaderboard-table">
+      <caption id="leaderboardDesc" class="sr-only">Student leaderboard ranking by roll number, CGPA, projects and certificates</caption>
+      <thead>
+        <tr>
+          <th scope="col" data-sort-key="roll" tabindex="0" aria-sort="ascending">Roll No.</th>
+          <th scope="col" data-sort-key="name" tabindex="0" aria-sort="none">Student Name</th>
+          <th scope="col" data-sort-key="cgpa" tabindex="0" aria-sort="none">CGPA</th>
+          <th scope="col" data-sort-key="projects" tabindex="0" aria-sort="none">Projects Earned</th>
+          <th scope="col" data-sort-key="certificates" tabindex="0" aria-sort="none">Certificates Earned</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr tabindex="0" data-roll="101" data-name="Ananya Singh" data-cgpa="9.4" data-projects="5" data-certificates="7">
+          <td class="rank" data-label="Roll No.">101</td>
+          <td class="student-name" data-label="Student Name">Ananya Singh</td>
+          <td class="cgpa" data-label="CGPA">9.4</td>
+          <td class="projects" data-label="Projects Earned">5</td>
+          <td class="certificates" data-label="Certificates Earned">7</td>
+        </tr>
+        <tr tabindex="0" data-roll="104" data-name="Rohan Patel" data-cgpa="9.25" data-projects="3" data-certificates="4">
+          <td class="rank" data-label="Roll No.">104</td>
+          <td class="student-name" data-label="Student Name">Rohan Patel</td>
+          <td class="cgpa" data-label="CGPA">9.25</td>
+          <td class="projects" data-label="Projects Earned">3</td>
+          <td class="certificates" data-label="Certificates Earned">4</td>
+        </tr>
+        <tr tabindex="0" data-roll="107" data-name="Ishita Verma" data-cgpa="9.1" data-projects="4" data-certificates="5">
+          <td class="rank" data-label="Roll No.">107</td>
+          <td class="student-name" data-label="Student Name">Ishita Verma</td>
+          <td class="cgpa" data-label="CGPA">9.1</td>
+          <td class="projects" data-label="Projects Earned">4</td>
+          <td class="certificates" data-label="Certificates Earned">5</td>
+        </tr>
+        <tr tabindex="0" data-roll="115" data-name="Aditya Rao" data-cgpa="8.95" data-projects="2" data-certificates="2">
+          <td class="rank" data-label="Roll No.">115</td>
+          <td class="student-name" data-label="Student Name">Aditya Rao</td>
+          <td class="cgpa" data-label="CGPA">8.95</td>
+          <td class="projects" data-label="Projects Earned">2</td>
+          <td class="certificates" data-label="Certificates Earned">2</td>
+        </tr>
+        <tr tabindex="0" data-roll="120" data-name="Nisha Kapoor" data-cgpa="8.85" data-projects="3" data-certificates="3">
+          <td class="rank" data-label="Roll No.">120</td>
+          <td class="student-name" data-label="Student Name">Nisha Kapoor</td>
+          <td class="cgpa" data-label="CGPA">8.85</td>
+          <td class="projects" data-label="Projects Earned">3</td>
+          <td class="certificates" data-label="Certificates Earned">3</td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const table = document.getElementById("leaderboard-table");
+      const tbody = table.tBodies[0];
+      const rows = Array.from(tbody.rows);
+      const sortSelect = document.getElementById("sort-select");
+      const searchInput = document.getElementById("search-input");
+      const headers = table.tHead.rows[0].cells;
+
+      let currentSortKey = 'roll';
+      let ascending = true;
+
+      function compareRows(a, b, key) {
+        let valA = a.dataset[key];
+        let valB = b.dataset[key];
+
+        if (key === 'cgpa' || key === 'roll' || key === 'projects' || key === 'certificates') {
+          valA = parseFloat(valA);
+          valB = parseFloat(valB);
+          return ascending ? valA - valB : valB - valA;
+        } else if (key === 'name') {
+          valA = valA.toLowerCase();
+          valB = valB.toLowerCase();
+          if(valA < valB) return ascending ? -1 : 1;
+          if(valA > valB) return ascending ? 1 : -1;
+          return 0;
+        }
+        return 0;
+      }
+
+      function updateSortAria(selectedKey) {
+        for (const th of headers) {
+          const key = th.getAttribute('data-sort-key');
+          if (key === selectedKey) {
+            th.setAttribute('aria-sort', ascending ? 'ascending' : 'descending');
+          } else {
+            th.setAttribute('aria-sort', 'none');
+          }
+        }
+      }
+
+      function sortTable(key) {
+        rows.sort((a, b) => compareRows(a, b, key));
+        rows.forEach(row => tbody.appendChild(row));
+        updateSortAria(key);
+      }
+
+      function filterTable(filterText) {
+        const lowerText = filterText.toLowerCase();
+        rows.forEach(row => {
+          const name = row.dataset.name.toLowerCase();
+          row.style.display = name.includes(lowerText) ? '' : 'none';
+        });
+      }
+
+      // Sort select control
+      sortSelect.addEventListener("change", () => {
+        const selectedKey = sortSelect.value;
+        ascending = true;
+        currentSortKey = selectedKey;
+        sortTable(currentSortKey);
+      });
+
+      // Clickable headers sorting
+      Array.from(headers).forEach(th => {
+        const key = th.getAttribute('data-sort-key');
+        if (key) {
+          th.style.cursor = 'pointer';
+          th.addEventListener('click', () => {
+            if (currentSortKey === key) ascending = !ascending;
+            else {
+              currentSortKey = key;
+              ascending = true;
+            }
+            sortSelect.value = key;
+            sortTable(currentSortKey);
+          });
+        }
+      });
+
+      // Search input
+      searchInput.addEventListener("input", () => {
+        filterTable(searchInput.value);
+      });
+
+      // Initial sort by Roll No, ascending
+      sortTable('roll');
+    });
+  </script>
+  <script src="./script.js"></script>
+</body>
+
+</html>

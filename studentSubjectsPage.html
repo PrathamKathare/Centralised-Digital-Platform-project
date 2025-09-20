@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="./style.css" />
+  <title>My Subjects - P.A.S.E.R.</title>
+  <style>
+    /* Reset margins and paddings */
+    html, body {
+      margin: 0;
+      padding: 0;
+      /*height: 100%;*/
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #4a0e4e 25%, #0a0a0a 90%);
+      color: #e0dfff;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Main content styles */
+    main.subjects-container {
+      flex-grow: 1;
+      width: 90%;
+      max-width: 1280px;
+      background: transparent;
+      border-radius: 20px;
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.75);
+      padding: 2.5rem 3rem;
+      margin: 1.5rem auto 3rem;
+      user-select: none;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 900;
+      color: #ffffff;
+      margin: 0 0 2rem;
+      
+      text-align: center;
+    }
+
+    /* Subject cards grid */
+    .subjects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2.2rem;
+    }
+
+    .subject-card {
+      background: linear-gradient(145deg, #4a0e4e, black);
+      border-radius: 18px;
+      box-shadow:
+        6px 6px 13px #000000,
+        -6px -6px 13px #4a0e4e;
+      color: #f8f8f8cc;
+      padding: 1.8rem 2.2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      cursor: pointer;
+    }
+
+    .subject-card:hover,
+    .subject-card:focus-within {
+      transform: translateY(-10px);
+      box-shadow:
+        0 22px 36px black,
+        inset 0 0 20px #4a0e4e;
+      outline: none;
+    }
+
+    .subject-card h2 {
+      margin-bottom: 0.9rem;
+      border-bottom: 3px solid #bb95ff;
+      padding-bottom: 0.5rem;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #d1bfff;
+      letter-spacing: 0.03em;
+      user-select: none;
+    }
+
+    .subject-card p.description {
+      font-size: 1rem;
+      line-height: 1.4;
+      margin-bottom: 1.2rem;
+      color: #d9c6ffcc;
+      flex-grow: 1;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #c7afff;
+      margin-bottom: 0.3rem;
+    }
+
+    .progress-container {
+      background-color: #3c0079;
+      border-radius: 10px;
+      height: 18px;
+      margin-top: 1.3rem;
+      overflow: hidden;
+      box-shadow: inset 0 1.5px 5px rgba(255, 255, 255, 0.15);
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: #bb95ff;
+      width: 0;
+      border-radius: 10px 0 0 10px;
+      transition: width 1.5s ease-in-out;
+      box-shadow: 0 0 14px #cc99ff96;
+    }
+
+    .subject-actions {
+      margin-top: 1.6rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: 1.3rem;
+    }
+
+    button.btn {
+      background-color: #f8f8f8;
+      border: none;
+      border-radius: 10px;
+      color: #4a0e4e;
+      padding: 0.55rem 1.25rem;
+      font-weight: 800;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transition: background-color 0.35s ease;
+      user-select: none;
+      box-shadow: 0 0 10px black;
+    }
+
+    button.btn:hover,
+    button.btn:focus {
+      background-color: #4a0e4e;
+      color: white;
+      outline: none;
+      box-shadow: 0 0 18px #ddccffff;
+    }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+      h1 {
+        font-size: 2.4rem;
+      }
+
+      .subjects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .subject-actions {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<nav class="navbar student-navbar" role="navigation" aria-label="Student main navigation">
+  <!-- Logo -->
+  <div class="brand" aria-label="P.A.S.E.R. Logo">P.A.S.E.R.</div>
+
+  <!-- Hamburger (mobile toggle) -->
+  <div class="menu-toggle" id="menu-toggle">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <!-- Nav + Profile together -->
+  <ul id="nav-links">
+    <li><a href="./studentSubjectsPage.html">my subjects</a></li>
+    <li><a href="./studentLeaderboard.html">leaderboard</a></li>
+    <li><a href="./MyProjects.html">my projects &amp; certificates</a></li>
+    <li><a href="./Notices.html">notices</a></li>
+      <li><a href="./Blogs.html">blog</a></li>
+    <li><a href="./Calender.html">calendar</a></li>
+    <li><a href="./Events.html">events</a></li>
+    <!-- Profile -->
+   <li>
+  <a href="./profileViewPage.html" class="profile" aria-label="View John's profile">
+    <img src="./Assets/profile.jpg" alt="Profile" class="profile-pic" id="profile-pic" />
+    <span class="profile-name" id="profile-name">John</span>
+  </a>
+</li>
+  </ul>
+</nav>
+
+<body>
+  <main class="subjects-container" aria-label="List of enrolled subjects and their details">
+    <h1>My Subjects</h1>
+    <div class="subjects-grid">
+      <article class="subject-card" tabindex="0" aria-labelledby="subject-title-1">
+        <h2 id="subject-title-1">Data Structures &amp; Algorithms</h2>
+        <p class="description">Fundamentals of data structures, algorithm design and analysis, including stacks, queues,
+          linked lists, trees, sorting, and searching.</p>
+        <div class="info-row">
+          <span>Instructor:</span><span>Dr. Priya Sharma</span>
+        </div>
+        <div class="info-row">
+          <span>Credits:</span><span>4</span>
+        </div>
+        <div class="info-row">
+          <span>Attendance:</span><span>92%</span>
+        </div>
+        <div class="progress-container" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="72" aria-label="Completion Progress for Data Structures & Algorithms">
+          <div class="progress-bar" style="width: 72%;"></div>
+        </div>
+        <div class="subject-actions">
+          <button class="btn" aria-label="View details for Data Structures & Algorithms">Details</button>
+          <button class="btn" aria-label="Access resources for Data Structures & Algorithms">Resources</button>
+        </div>
+      </article>
+
+      <article class="subject-card" tabindex="0" aria-labelledby="subject-title-2">
+        <h2 id="subject-title-2">Database Management Systems</h2>
+        <p class="description">Design and implementation of database systems, relational models, SQL, normalization,
+          transactions, and data security.</p>
+        <div class="info-row">
+          <span>Instructor:</span><span>Prof. Amit Raj</span>
+        </div>
+        <div class="info-row">
+          <span>Credits:</span><span>3</span>
+        </div>
+        <div class="info-row">
+          <span>Attendance:</span><span>85%</span>
+        </div>
+        <div class="progress-container" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="55" aria-label="Completion Progress for Database Management Systems">
+          <div class="progress-bar" style="width: 55%;"></div>
+        </div>
+        <div class="subject-actions">
+          <button class="btn" aria-label="View details for Database Management Systems">Details</button>
+          <button class="btn" aria-label="Access resources for Database Management Systems">Resources</button>
+        </div>
+      </article>
+
+      <article class="subject-card" tabindex="0" aria-labelledby="subject-title-3">
+        <h2 id="subject-title-3">Operating Systems</h2>
+        <p class="description">Concepts of process management, memory management, file systems, concurrency,
+          and operating system design.</p>
+        <div class="info-row">
+          <span>Instructor:</span><span>Dr. Neha Gupta</span>
+        </div>
+        <div class="info-row">
+          <span>Credits:</span><span>3</span>
+        </div>
+        <div class="info-row">
+          <span>Attendance:</span><span>78%</span>
+        </div>
+        <div class="progress-container" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="65" aria-label="Completion Progress for Operating Systems">
+          <div class="progress-bar" style="width: 65%;"></div>
+        </div>
+        <div class="subject-actions">
+          <button class="btn" aria-label="View details for Operating Systems">Details</button>
+          <button class="btn" aria-label="Access resources for Operating Systems">Resources</button>
+        </div>
+      </article>
+
+          </div>
+  </main>
+</body>
+<script src="./script.js"></script>
+
+</html>

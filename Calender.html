@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Calendar - P.A.S.E.R.</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Minimal styles assuming navbar handled in style.css */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #4a0e4e 25%, #0a0a0a 90%);
+      color: #e0dfff;
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main.calendar-container {
+      flex-grow: 1;
+      width: 95%;
+      max-width: 900px;
+      margin: 2rem auto 3rem;
+      background: transparent;
+      border-radius: 20px;
+      padding: 2rem 2.5rem;
+      box-shadow: 0 0 70px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(74, 14, 78, 0.6);
+      user-select: none;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 3rem;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 2rem;
+      text-shadow: 1.7px 1.7px 16px rgba(102, 0, 255, 0.75);
+      user-select: none;
+    }
+
+    /* Simple calendar grid */
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+      text-align: center;
+    }
+
+    .calendar .day-name {
+      font-weight: 700;
+      color: #d1bfff;
+      user-select: none;
+    }
+
+    .calendar .date-cell {
+      background: linear-gradient(145deg, #4a0e4e, black);
+      border-radius: 10px;
+      padding: 12px 0;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      color: #c7afff;
+      user-select: none;
+      position: relative;
+      box-shadow: 2px 2px 6px #000000, -2px -2px 6px #4a0e4e;
+    }
+
+    .calendar .date-cell.today {
+      background: linear-gradient(145deg, #1b0e3b, #3a0075);
+      box-shadow: 0 0 10px #aa88ff, inset 0 0 10px #aa88ff;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .calendar .date-cell:hover,
+    .calendar .date-cell:focus {
+      transform: translateY(-3px);
+      background: linear-gradient(145deg, #1b0e3b, #3a0075);
+      color: #fff;
+      outline: none;
+      box-shadow: 0 0 15px #bb7aff, inset 0 0 10px #bb7aff;
+    }
+
+    /* Event highlight dot */
+    .calendar .date-cell.has-event::after {
+      content: '';
+      position: absolute;
+      bottom: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8px;
+      height: 8px;
+      background: #d1bfff;
+      border-radius: 50%;
+      box-shadow: 0 0 6px #d1bfff;
+    }
+
+    /* Selected date event list */
+    .event-list {
+      margin-top: 2rem;
+      background: linear-gradient(145deg, #4a0e4e, black);
+      border-radius: 15px;
+      padding: 1.5rem;
+      max-height: 250px;
+      overflow-y: auto;
+      color: #d9c6ffcc;
+      box-shadow: inset 0 0 10px #0a0a0a, inset 0 0 20px #4a0e4e;
+    }
+
+    .event-list h2 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      text-align: center;
+      color: #d1bfff;
+      user-select: none;
+    }
+
+    .event-item {
+      padding: 0.6rem 1rem;
+      border-bottom: 1px solid #6d4bc9;
+      user-select: text;
+    }
+
+    .event-item:last-child {
+      border-bottom: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      main.calendar-container {
+        width: 95%;
+        padding: 1.5rem 1.5rem;
+      }
+
+      h1 {
+        font-size: 2.4rem;
+      }
+
+      .calendar .date-cell {
+        padding: 8px 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar student-navbar" role="navigation" aria-label="Student main navigation">
+        <div class="brand" aria-label="P.A.S.E.R. Logo">P.A.S.E.R.</div>
+
+        <div class="menu-toggle" id="menu-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+        <ul id="nav-links">
+      <li><a href="./studentSubjectsPage.html">my subjects</a></li>
+      <li><a href="./studentLeaderboard.html">leaderboard</a></li>
+      <li><a href="./MyProjects.html">my projects &amp; certificates</a></li>
+      <li><a href="./Notices.html">notices</a></li>
+      <li><a href="./Blogs.html">blog</a></li>
+      <li><a href="./Calender.html">calendar</a></li>
+      <li><a href="./Events.html">events</a></li>
+            <li>
+  <a href="./profileViewPage.html" class="profile" aria-label="View John's profile">
+    <img src="./Assets/profile.jpg" alt="Profile" class="profile-pic" id="profile-pic" />
+    <span class="profile-name" id="profile-name">John</span>
+  </a>
+</li>
+    </ul>
+  </nav>
+  <main class="calendar-container" role="main" aria-label="Academic calendar and events">
+    <h1>Academic Calendar</h1>
+    <div class="calendar" role="grid" aria-label="Monthly calendar view" tabindex="0">
+      <div class="day-name">Sun</div>
+      <div class="day-name">Mon</div>
+      <div class="day-name">Tue</div>
+      <div class="day-name">Wed</div>
+      <div class="day-name">Thu</div>
+      <div class="day-name">Fri</div>
+      <div class="day-name">Sat</div>
+
+            <div class="date-cell"></div>
+      <div class="date-cell"></div>
+      <div class="date-cell"></div>
+
+            <div class="date-cell" tabindex="0" aria-label="September 1">1</div>
+      <div class="date-cell today" tabindex="0" aria-label="September 2" aria-current="date">2</div>
+      <div class="date-cell has-event" tabindex="0" aria-label="September 3, Event scheduled">3</div>
+      <div class="date-cell" tabindex="0" aria-label="September 4">4</div>
+      <div class="date-cell" tabindex="0" aria-label="September 5">5</div>
+      <div class="date-cell has-event" tabindex="0" aria-label="September 6, Event scheduled">6</div>
+      <div class="date-cell" tabindex="0" aria-label="September 7">7</div>
+      <div class="date-cell" tabindex="0" aria-label="September 8">8</div>
+      <div class="date-cell" tabindex="0" aria-label="September 9">9</div>
+      <div class="date-cell has-event" tabindex="0" aria-label="September 10, Event scheduled">10</div>
+      <div class="date-cell" tabindex="0" aria-label="September 11">11</div>
+      <div class="date-cell" tabindex="0" aria-label="September 12">12</div>
+      <div class="date-cell has-event" tabindex="0" aria-label="September 13, Event scheduled">13</div>
+      <div class="date-cell" tabindex="0" aria-label="September 14">14</div>
+      <div class="date-cell" tabindex="0" aria-label="September 15">15</div>
+      <div class="date-cell" tabindex="0" aria-label="September 16">16</div>
+      <div class="date-cell" tabindex="0" aria-label="September 17">17</div>
+      <div class="date-cell" tabindex="0" aria-label="September 18">18</div>
+      <div class="date-cell" tabindex="0" aria-label="September 19">19</div>
+      <div class="date-cell today has-event" tabindex="0" aria-label="September 20, Event scheduled" aria-current="date">20</div>
+      <div class="date-cell" tabindex="0" aria-label="September 21">21</div>
+      <div class="date-cell" tabindex="0" aria-label="September 22">22</div>
+      <div class="date-cell" tabindex="0" aria-label="September 23">23</div>
+      <div class="date-cell" tabindex="0" aria-label="September 24">24</div>
+      <div class="date-cell" tabindex="0" aria-label="September 25">25</div>
+      <div class="date-cell" tabindex="0" aria-label="September 26">26</div>
+      <div class="date-cell" tabindex="0" aria-label="September 27">27</div>
+      <div class="date-cell" tabindex="0" aria-label="September 28">28</div>
+      <div class="date-cell" tabindex="0" aria-label="September 29">29</div>
+      <div class="date-cell" tabindex="0" aria-label="September 30">30</div>
+          </div>
+
+    <section class="event-list" tabindex="0" aria-live="polite" aria-label="Events on selected date" aria-atomic="true">
+      <h2>Events on September 3</h2>
+      <div class="event-item">Workshop on AI - 10:00 AM to 5:00 PM</div>
+      <div class="event-item">Guest Lecture: Cybersecurity - 6:00 PM</div>
+    </section>
+  </main>
+</body>
+<script src="./script.js"></script>
+
+</html>

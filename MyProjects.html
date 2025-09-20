@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="./style.css" />
+  <title>My Projects & Certificates - P.A.S.E.R.</title>
+  <style>
+    /* Reset */
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #4a0e4e 25%, #0a0a0a 90%);
+      color: #e0dfff;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Container for projects and certificates */
+    main.container {
+      flex-grow: 1;
+      width: 95%;
+      max-width: 1220px;
+      background: transparent;
+      border-radius: 22px;
+      box-shadow:
+        0 0 70px rgba(0, 0, 0, 0.8),
+        inset 0 0 20px rgba(74, 14, 78, 0.6);
+      padding: 3rem 3.5rem;
+      margin: 1rem auto 3rem;
+      user-select: none;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    h1 {
+      font-size: 3.4rem;
+      font-weight: 900;
+      color: #fff;
+      user-select: none;
+      margin-bottom: 2.2rem;
+      letter-spacing: 0.15em;
+      text-shadow: 1.8px 1.8px 20px rgba(102, 0, 255, 0.8);
+      text-align: center;
+      max-width: 900px;
+      align-self: center;
+    }
+
+    /* Grid layout for cards */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2.8rem;
+    }
+
+    /* Card base */
+    .card {
+      background: linear-gradient(145deg, #4a0e4e, black);
+      border-radius: 20px;
+      box-shadow:
+        6px 6px 13px #0a0a0a,
+        -6px -6px 13px #4a0e4e;
+      padding: 2rem 2.5rem;
+      color: #f8f8f8cc;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center content horizontally */
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      cursor: pointer;
+      text-align: center; /* Center all text content */
+    }
+
+    .card:hover,
+    .card:focus-within {
+      transform: translateY(-12px);
+      box-shadow:
+        0 22px 36px rgba(0, 0, 0, 0.9),
+        inset 0 0 20px #4a0e4e;
+      outline: none;
+    }
+
+    .card h2 {
+      margin-bottom: 1.2rem;
+      font-weight: 800;
+      font-size: 1.75rem;
+      color: #d1bfff;
+      border-bottom: 3.5px solid #bb95ff;
+      padding-bottom: 0.5rem;
+      letter-spacing: 0.03em;
+      user-select: none;
+    }
+
+    .card p.description {
+      font-size: 1.1rem;
+      line-height: 1.5;
+      margin-bottom: 1.8rem;
+      color: #d9c6ffcc;
+      flex-grow: 1;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      color: #c7afff;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 0.9rem;
+      user-select: none;
+      width: 100%; /* Ensure rows span full width */
+      padding: 0 1rem; /* Add padding for better spacing */
+    }
+    
+    .detail-row span strong {
+      color: #76ff7a; /* Updated color for 'Verified' */
+    }
+    
+    .detail-row a {
+      color: #bb7aff;
+      text-decoration: none;
+      font-weight: 800;
+      transition: color 0.3s ease;
+    }
+    
+    .detail-row a:hover,
+    .detail-row a:focus {
+      color: #ddccffff;
+      text-decoration: underline;
+    }
+
+    /* Download button */
+    .btn-download {
+      align-self: center; /* Center the button */
+      padding: 0.65rem 1.5rem;
+      font-weight: 800;
+      background-color: #f8f8f8;
+      color: #4a0e4e;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 0 16px black;
+      transition: background-color 0.35s ease, box-shadow 0.4s ease, color 0.35s ease;
+      user-select: none;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .btn-download:hover,
+    .btn-download:focus {
+      background-color: #4a0e4e;
+      color: white;
+      outline: none;
+      box-shadow: 0 0 30px #ddccffff;
+    }
+
+    /* Responsive */
+    @media (max-width: 750px) {
+      main.container {
+        width: 90%;
+        padding: 2rem 2rem;
+      }
+      h1 {
+        font-size: 2.6rem;
+      }
+      .card {
+        padding: 1.8rem 2rem;
+      }
+      .btn-download {
+        font-size: 0.95rem;
+        padding: 0.55rem 1.2rem;
+      }
+    }
+
+    @media (max-width: 440px) {
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar student-navbar" role="navigation" aria-label="Student main navigation">
+        <div class="brand" aria-label="P.A.S.E.R. Logo">P.A.S.E.R.</div>
+
+        <div class="menu-toggle" id="menu-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+        <ul id="nav-links">
+      <li><a href="./studentSubjectsPage.html">my subjects</a></li>
+      <li><a href="./studentLeaderboard.html">leaderboard</a></li>
+      <li><a href="./MyProjects.html">my projects &amp; certificates</a></li>
+      <li><a href="./Notices.html">notices</a></li>
+      <li><a href="./Blogs.html">blog</a></li>
+      <li><a href="./Calender.html">calendar</a></li>
+      <li><a href="./Events.html">events</a></li>
+            <li>
+  <a href="./profileViewPage.html" class="profile" aria-label="View John's profile">
+    <img src="./Assets/profile.jpg" alt="Profile" class="profile-pic" id="profile-pic" />
+    <span class="profile-name" id="profile-name">John</span>
+  </a>
+</li>
+    </ul>
+  </nav>
+  <main class="container" aria-label="Projects and certificates dashboard">
+    <h1>My Projects & Certificates</h1>
+    <section class="grid" aria-live="polite">
+
+            <article class="card" tabindex="0" aria-labelledby="project-title-1">
+        <h2 id="project-title-1">Smart Attendance System</h2>
+        <p class="description">
+          Developed an RFID-based attendance monitoring system for classrooms reducing manual effort and errors.
+        </p>
+        <div class="detail-row">
+          <span>Role: Team Leader</span>
+          <span>Year: 2024</span>
+        </div>
+        <div class="detail-row">
+          <span>Status: <strong>Verified</strong></span>
+          <span>Certificate: <a href="#" target="_blank" rel="noopener noreferrer" aria-label="View project certificate for Smart Attendance System" style="color:#bb7aff; text-decoration: underline;">Download</a></span>
+        </div>
+        <button class="btn-download" aria-label="Download project report for Smart Attendance System">
+          Download Report
+        </button>
+      </article>
+
+            <article class="card" tabindex="0" aria-labelledby="certificate-title-1">
+        <h2 id="certificate-title-1">AI & ML Workshop Completion</h2>
+        <p class="description">
+          Successfully completed a 5-day workshop on Artificial Intelligence and Machine Learning fundamentals.
+        </p>
+        <div class="detail-row">
+          <span>Issued by: Tech Institute</span>
+          <span>Year: 2025</span>
+        </div>
+        <div class="detail-row">
+          <span>Status: <strong>Verified</strong></span>
+          <span>Certificate: <a href="#" target="_blank" rel="noopener noreferrer" aria-label="View certificate for AI and ML Workshop" style="color:#bb7aff; text-decoration: underline;">Download</a></span>
+        </div>
+        <button class="btn-download" aria-label="Download certificate for AI and ML Workshop">
+          Download Certificate
+        </button>
+      </article>
+
+          </section>
+  </main>
+</body>
+<script src="./script.js"></script>
+</html>

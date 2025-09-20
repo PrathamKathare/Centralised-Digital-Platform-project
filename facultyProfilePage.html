@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Student Profile</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<style>
+    .info-sections {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* space between */
+}
+
+.section-card {
+  flex: 1 1 48%; /* roughly half width with some gutter */
+  box-sizing: border-box;
+}
+
+/* Optional: stack vertically on smaller screens */
+@media (max-width: 768px) {
+  .section-card {
+    flex-basis: 100%;
+  }
+}
+
+</style>
+<body>
+<div class="container">
+  <section class="profile-card">
+    <img src="https://via.placeholder.com/120/007bff/fff?text=JD" alt="Profile Picture" class="profile-pfp">
+    <div class="profile-details">
+      <div><label>Name:</label> <span id="profileName">professor xyz</span></div>
+      <div><label>Designation:</label> <span id="profileyear">HOD</span></div>
+      <div><label>College:</label> <span id="profileCollege">XYZ University</span></div>
+      <div><label>Department:</label> <span id="profileDept">Computer Science</span></div>
+      <div><label>Working hours :</label> <span id="profileDomain">9-5pm</span></div>
+      <div><label>Email:</label> <a href="mailto:john.doe@example.com" id="profileEmail">john.doe@example.com</a></div>
+      <div class="social-icons">
+        <a href="https://linkedin.com/in/johndoe" target="_blank"><img src="https://img.icons8.com/color/48/000000/linkedin.png" alt="LinkedIn"></a>
+        <a href="https://github.com/johndoe" target="_blank"><img src="https://img.icons8.com/fluent/48/000000/github.png" alt="GitHub"></a>
+        <a href="https://leetcode.com/johndoe" target="_blank"><img src="https://img.icons8.com/external-tal-revivo-shadow-tal-revivo/48/000000/external-leetcode-a-popular-online-judge-for-preparing-technical-interviews-logo-shadow-tal-revivo.png" alt="LeetCode"></a>
+      </div>
+    </div>
+    <div class="profile-ids">
+      
+      <span class="id-badge" onclick="copyToClipboard('PaserID-00123')" title="Click to copy">
+        PaserID-00123 <img src="https://img.icons8.com/material-outlined/24/000000/copy.png" class="copy-icon" alt="Copy">
+      </span>
+    </div>
+  </section>
+
+  <div class="info-sections">
+    <section class="section-card">
+      <h3>Aera of Intrest</h3>
+      <div class="carousel-wrapper">
+        <div class="carousel-container" id="certContainer"></div>
+        <button class="carousel-btn left" id="certPrevBtn" onclick="navigate('certContainer', -1)">&#8592;</button>
+        <button class="carousel-btn right" id="certNextBtn" onclick="navigate('certContainer', 1)">&#8594;</button>
+      </div>
+    </section>
+
+    <section class="section-card">
+      <h3>Courses taught</h3>
+      <div class="carousel-wrapper">
+        <div class="carousel-container" id="gradeContainer"></div>
+        <button class="carousel-btn left" id="gradePrevBtn" onclick="navigate('gradeContainer', -1)">&#8592;</button>
+        <button class="carousel-btn right" id="gradeNextBtn" onclick="navigate('gradeContainer', 1)">&#8594;</button>
+      </div>
+    </section>
+  </div>
+
+  <section class="projects-section">
+    <h3>Works and Projects</h3>
+    <div class="project-cards-container" id="projectCardsContainer"></div>
+  </section>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

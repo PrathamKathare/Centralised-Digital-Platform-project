@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P.A.S.E.R. - Institution Login</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="./script.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="login-page-body">
+   
+    <div class="background"></div>
+    <div class="login-container">
+        <h1 class="title">Join as an Institution</h1>
+        <p class="subtitle">Enter your details to get started.</p>
+        <form class="login-form">
+            <label for="college-code" class="label">Institution/College Code</label>
+            <input type="text" id="college-code" class="input-field" placeholder="e.g., UGC/AICTE code" required>
+
+            <label for="institution-name" class="label">Official Institution Name</label>
+            <input type="text" id="institution-name" class="input-field" placeholder="e.g., K.L.E. Institute" required>
+
+            <label for="admin-name" class="label">Administrator/Registrar Full Name</label>
+            <input type="text" id="admin-name" class="input-field" placeholder="John Doe" required>
+            
+            <label for="email" class="label">Official Email ID</label>
+            <input type="email" id="email" class="input-field" placeholder="admin@kle.edu" required>
+
+            <label for="auth-key" class="label">Authorization Key / Access Code</label>
+            <input type="text" id="auth-key" class="input-field" placeholder="Provided by portal team" required>
+
+            <label for="password" class="label">Create Password</label>
+            <div class="password-input-wrapper">
+                <input type="password" id="password" class="input-field" placeholder="Create new password" required>
+                <span class="toggle-password" onclick="togglePasswordVisibility('password')">
+                    <i class="fas fa-eye"></i>
+                </span>
+            </div>
+
+            <label for="confirm-password" class="label">Confirm Password</label>
+            <div class="password-input-wrapper">
+                <input type="password" id="confirm-password" class="input-field" placeholder="Confirm new password" required>
+                <span class="toggle-password" onclick="togglePasswordVisibility('confirm-password')">
+                    <i class="fas fa-eye"></i>
+                </span>
+            </div>
+            
+            <button type="submit" class="login-button">Sign Up</button>
+        </form>
+        <div class="create-account">
+            Already have an account? <a href="#" class="create-link">Log in.</a>
+        </div>
+    </div>
+</body>
+<script src="script.js"></script>
+</html>
