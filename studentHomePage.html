@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Student Dashboard - P.A.S.E.R.</title>
+  <link rel="stylesheet" href="./style.css" />
+  
+  <style>
+    /* Reset & base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #4a0e4e 20%, #0a0a0a 90%);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-attachment: fixed;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Main container */
+    main.content {
+      flex-grow: 1;
+      width: 90%;
+      max-width: 1280px;
+      margin: 3rem auto 4rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2.75rem;
+    }
+
+    section.welcome {
+      grid-column: 1 / -1;
+      background-color: rgba(0, 0, 0, 0.6); /* translucent black */
+      border-radius: 24px;
+      padding: 3rem 4rem;
+      box-shadow:
+        black;
+      text-align: center;
+      font-weight: 500;
+      color: white;
+    }
+
+    section.welcome h1 {
+      font-weight: 900;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      color: white;
+      user-select: text;
+    }
+
+    section.welcome p {
+      max-width: 720px;
+      margin: 0 auto 2rem;
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: white;
+      line-height: 1.8;
+      user-select: text;
+    }
+
+    .generate-cv-section {
+       grid-column: 1 / -1;
+       background-color: rgba(0, 0, 0, 0.6); /* translucent black */
+       border-radius: 24px;
+       padding: 3rem 4rem;
+       box-shadow:
+         black;
+       text-align: center;
+       font-weight: 500;
+       color: white;
+    }
+
+    .generate-cv-section h2 {
+      font-weight: 900;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      color: white;
+      user-select: text;
+    }
+
+    .generate-cv-section p {
+       max-width: 720px;
+      margin: 0 auto 2rem;
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: white;
+      line-height: 1.8;
+      user-select: text;
+    }
+
+    .generate-cv-btn {
+      padding: 1.5rem 4rem;
+      background-color: white;
+      color: #55007f;
+      border: none;
+      border-radius: 40px;
+      font-weight: 900;
+      font-size: 1.5rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background-color 0.3s ease, color 0.3s ease,
+        box-shadow 0.4s ease;
+      user-select: none;
+    }
+
+    .generate-cv-btn:hover,
+    .generate-cv-btn:focus {
+      background-color: #55007f;
+      color: white;
+      
+      outline: none;
+    }
+
+    /* Cards for dashboard features */
+    .dashboard-card {
+      background: linear-gradient(145deg, #0d0d0d, #29004e);
+      border-radius: 18px;
+      box-shadow:
+        4px 4px 8px #4a0e4e,
+        -4px -4px 8px black;
+      padding: 2rem 2.8rem;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s ease;
+      user-select: none;
+    }
+
+    .dashboard-card:hover,
+    .dashboard-card:focus-within {
+      transform: translateY(-7px);
+      box-shadow:
+        8px 10px 20px black,
+        -8px -8px 20px #4a0e4e;
+      outline: none;
+    }
+
+    .dashboard-card h2 {
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      font-size: 1.5rem;
+      border-bottom: 2.5px solid white;
+      padding-bottom: 0.35rem;
+      color: white;
+      user-select: none;
+    }
+
+    .dashboard-card p {
+      flex-grow: 1;
+      font-size: 1.1rem;
+      line-height: 1.5;
+      color: white;
+      user-select: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      main.content {
+        grid-template-columns: 1fr;
+        width: 90%;
+      }
+
+      section.welcome h1 {
+        font-size: 2.4rem;
+      }
+
+      .generate-cv-section {
+        padding: 2.5rem 2rem;
+      }
+
+      .generate-cv-section h2 {
+        font-size: 2rem;
+      }
+
+      .generate-cv-section p {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<nav class="navbar student-navbar" role="navigation" aria-label="Student main navigation">
+        <div class="brand" aria-label="P.A.S.E.R. Logo">P.A.S.E.R.</div>
+
+        <div class="menu-toggle" id="menu-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+        <ul id="nav-links">
+      <li><a href="./studentSubjectsPage.html">my subjects</a></li>
+      <li><a href="./studentLeaderboard.html">leaderboard</a></li>
+      <li><a href="./MyProjects.html">my projects &amp; certificates</a></li>
+      <li><a href="./Notices.html">notices</a></li>
+      <li><a href="./Blogs.html">blog</a></li>
+      <li><a href="./Calender.html">calendar</a></li>
+      <li><a href="./Events.html">events</a></li>
+            <li>
+  <a href="./profileViewPage.html" class="profile" aria-label="View John's profile">
+    <img src="./Assets/profile.jpg" alt="Profile" class="profile-pic" id="profile-pic" />
+    <span class="profile-name" id="profile-name">Loading...</span>
+  </a>
+</li>
+    </ul>
+  </nav>
+
+<body>
+
+  <main class="content" role="main">
+    <section class="welcome" tabindex="0" aria-label="Welcome Section">
+      <h1 id="student-name">Loading...</h1>
+      <p>
+        Explore your comprehensive academic and co-curricular profile, stay connected with notices and events, and manage your progress seamlessly.
+      </p>
+    </section>
+
+    <section class="generate-cv-section" tabindex="0" aria-label="CV Generator Highlight Section">
+  <h2>Auto-Generate Portfolio Tool</h2>
+  <p>
+    The Portfolio Generator is your powerful tool to craft professional, personalized Portfoilios — automatically highlighting your academic achievements,
+    projects, skills, and experiences with a polished format.
+  </p>
+  <p>
+    Quickly auto-generate, edit, and download your Portfolio to stand out in placements, internships, and higher education applications.
+  </p>
+  <button class="generate-cv-btn" aria-label="Generate your CV">Generate Portfolio</button>
+</section>
+
+    <section class="dashboard-card" tabindex="0" aria-label="Subjects Section">
+      <h2>Your Subjects</h2>
+      <p>View your enrolled subjects, academic progress, and related learning materials with rich detail.</p>
+    </section>
+
+    <section class="dashboard-card" tabindex="0" aria-label="Leaderboard Section">
+      <h2>Leaderboard</h2>
+      <p>Track how you rank in academic performance and extracurricular activities among peers.</p>
+    </section>
+
+    <section class="dashboard-card" tabindex="0" aria-label="Projects and Certificates Section">
+      <h2>Projects & Certificates</h2>
+      <p>Access and showcase your verified projects and certificates all in one place.</p>
+    </section>
+
+    <section class="dashboard-card" tabindex="0" aria-label="Notices Section">
+      <h2>Notices</h2>
+      <p>Stay well informed with institutional announcements and deadlines directly impacting your journey.</p>
+    </section>
+
+    <section class="dashboard-card" tabindex="0" aria-label="CV Generator Section">
+      <h2>CV Generator</h2>
+      <p>Create professional resumes effortlessly based on your verified accomplishments and participation.</p>
+    </section>
+
+    <section class="dashboard-card" tabindex="0" aria-label="Blog Section">
+      <h2>Blog</h2>
+      <p>Discover educational content, insights, and stories curated for student success and inspiration.</p>
+    </section>
+
+    <section class="dashboard-card" tabindex="0" aria-label="Notifications Section">
+      <h2>Notifications</h2>
+      <p>Receive timely updates, alerts, and messages personalized for you.</p>
+    </section>
+
+    <section class="dashboard-card" tabindex="0" aria-label="Calendar Section">
+      <h2>Calendar</h2>
+      <p>Organize your academic calendar, event dates, and deadlines efficiently.</p>
+    </section>
+
+    <section class="dashboard-card" tabindex="0" aria-label="Events Section">
+      <h2>Events</h2>
+      <p>Keep abreast of upcoming workshops, seminars, and other extra-curricular opportunities.</p>
+    </section>
+  </main>
+</body>
+
+<script src="./script.js"></script>
+<script>
+    // Function to parse JWT token payload
+    function parseJwt (token) {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        return JSON.parse(jsonPayload);
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        const token = localStorage.getItem('jwtToken');
+        const studentNameElement = document.getElementById('student-name');
+        const profileNameElement = document.getElementById('profile-name');
+        const profilePicElement = document.getElementById('profile-pic');
+        
+        if (!token) {
+            // No token found, redirect to login page
+            window.location.href = './login.html';
+            return;
+        }
+
+        let username = "";
+        try {
+            const jwtPayload = parseJwt(token);
+            username = jwtPayload.sub || jwtPayload.username; // adjust field according to your JWT claims
+            if (!username) {
+                throw new Error("Username not found in token");
+            }
+        } catch (e) {
+            console.error("Invalid token or unable to parse username:", e);
+            localStorage.removeItem('jwtToken');
+            window.location.href = './login.html';
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://127.0.0.1:8080/students/usn/${username}`, {
+               method: 'GET',
+             headers: {
+                   'Authorization': `Bearer ${token}`
+                   }
+                });
+
+
+            if (response.ok) {
+                const studentData = await response.json();
+                studentNameElement.textContent = `Welcome Back, ${studentData.name}!`;
+                profileNameElement.textContent = studentData.name;
+                if (studentData.imageBase64) {
+                    profilePicElement.src = `data:image/jpeg;base64,${studentData.imageBase64}`;
+                }
+            } else if (response.status === 401 || response.status === 403) {
+                // Token expired, invalid, or forbidden access
+                localStorage.removeItem('jwtToken');
+                window.location.href = './login.html';
+            } else {
+                console.error('Failed to fetch student details:', response.status);
+                studentNameElement.textContent = 'Welcome Back, User!';
+            }
+        } catch (error) {
+            console.error('Error fetching student details:', error);
+            studentNameElement.textContent = 'Welcome Back, User!';
+        }
+    });
+</script>
+
+</html>

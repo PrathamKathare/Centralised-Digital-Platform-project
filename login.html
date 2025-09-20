@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Get Started - Login</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+        rel="stylesheet"
+    />
+</head>
+
+<body class="login-page-body">
+    <div class="background"></div>
+    <div class="login-container">
+        <h1 class="title">Welcome Back</h1>
+        <p class="subtitle">Log in to your P.A.S.E.R. account.</p>
+
+        <form class="login-form">
+    <label for="userType" class="label">Login As</label>
+    <select id="userType" name="userType" class="input-field" required>
+        <option value="studentAuth">Student</option>
+        <option value="professorAuth">Professor</option>
+        <option value="adminAuth">Admin</option>
+    </select>
+
+    <label for="username" class="label">Username</label>
+    <input
+        type="text"
+        id="username"
+        name="username"
+        class="input-field"
+        placeholder="Enter your username"
+        required
+    />
+
+    <label for="password" class="label">Password</label>
+    <div class="password-input-wrapper">
+        <input
+            type="password"
+            id="password"
+            name="password"
+            class="input-field"
+            placeholder="Enter your password"
+            required
+        />
+        <span class="toggle-password" onclick="togglePasswordVisibility('password')">
+            <i class="fas fa-eye"></i>
+        </span>
+    </div>
+
+    <button type="submit" class="login-button">Log in</button>
+</form>
+<pre id="result" style="white-space: pre-wrap; margin-top: 1rem;"></pre>
+
+<script>
+    document.querySelector('.login-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const resultEl = document.getElementById('result');
+        resultEl.textContent = 'Preparing request...';
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const userType = document.getElementById('userType').value;
+        const loginUrl = `http://127.0.0.1:8080/${userType}/login`;
+        try {
+            const resp = await fetch(loginUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            // Handle non-2xx HTTP responses
+            if (!resp.ok) {
+                const errorBody = await resp.text();
+                resultEl.textContent = `Login failed: ${errorBody}`;
+                return;
+            }
+
+            // Parse the JSON response
+            const responseBody = await resp.json();
+            console.log("Login response:", responseBody);
+
+            
+            // Store the JWT token from the response
+            localStorage.setItem('jwtToken', responseBody.jwt);
+            localStorage.setItem('userRole', userType);
+            
+            resultEl.textContent = 'Login successful!';
+            
+            // Redirect to the appropriate home page
+            window.location.href = './studentHomePage.html';
+            
+        } catch (err) {
+            resultEl.textContent = 'Request failed:\n' + (err.stack || err);
+        }
+    });
+
+    // You can keep the toggle password function as is
+    function togglePasswordVisibility(id) {
+        const input = document.getElementById(id);
+        const icon = input.nextElementSibling.querySelector('i');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+</script>
+    <script src="./script.js"></script>
+</body>
+</html>
